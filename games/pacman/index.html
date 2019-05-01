@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Pacman Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="container">
+            <div id="world"></div>
+            <div id="pacman"></div>
+            <!-- <div id="pacman2"></div> -->
+            <div id="score">0</div>
+            <div class="ghost" id="ghostPumpky"></div>
+            <div class="ghost" id="ghostRed"></div>
+            <div class="ghost" id="ghostBluey"></div>
+            <div class="ghost" id="ghostPinky"></div>
+        </div>
+        <p>Reach 1500 points to win.<br />Coins are worth 10, cherries 50, and ghosts 100.<br /><br />
+            After eating a cherry, you have 5 seconds to eat the ghosts!<br />
+            The walls will briefly flash red at the 4 second mark.</p>
+        <div id="alert"></div>
+        <script src="main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dogfighter!</title>
+    <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+</head>
+<body>
+    <style type = "text/css">
+        #ocean {
+            background-image: url("ocean.jpg");
+            width: 900px;
+            height: 700px;
+        }
+        .player {
+            background-image: url("player.png");
+            position: absolute;
+            width: 90px;
+            height: 53px;
+        }
+        .enemy {
+            background-image: url("enemy.png");
+            position: absolute;
+            width: 60px;
+            height: 78px;
+        }
+        .missile {
+            background-image: url("missile.png");
+            position: absolute;
+            width: 6px;
+            height: 16px;
+        }
+
+        .boom {
+            position: absolute;
+            top: 350px;
+            left: 450px;
+            width: .4em;
+            height: .4em;
+            background-color: #d7710a;
+            box-shadow: 00 .2em .13em #d73405, 0 0 0 0 #d70505, 0 0 0 0 black;
+            border-radius: 50%;
+        }
+
+        #score {
+            font-size: 2rem;
+            color: lightslategray;
+            display: inline-block;
+            margin: 10px;
+            vertical-align: middle;
+            width: 350px;
+        }
+
+        #bombs {
+            vertical-align: middle;
+            display: inline-flex;
+            flex-flow: row nowrap;
+            margin-left: 350px;
+        }
+
+        #bombs img {
+            display: inline-block;
+            height: 40px;
+            width: 40px;
+            margin: 5px;
+        }
+
+        .dropping {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            background: url('bomb.png') no-repeat center;
+            background-size: cover;
+        }
+
+    </style>
+
+    
+    <div id="ocean">
+        <div id="players">
+            
+        </div>
+        <div id="enemies">
+
+        </div>
+        <div id="missiles">
+
+        </div>
+        <div class="boom">
+
+        </div>
+    </div>
+
+    <div id="score">Score: 0 points</div>
+    <div id="bombs">
+        <img src="bomb.png" alt="bomb">
+    </div>
+
+    <script src="jquery-ui/external/jquery/jquery.js"></script>
+    <script src="jquery-ui/jquery-ui.js"></script>
+
+    <script>      
+        function drawPlayer() {
+            content = "<div class='player' style='left: " + player.left + "px; top: " + player.top + "px;'></div>";
+            document.getElementById("players").innerHTML = content;
+        }
+
+        function drawEnemies() {
+            content = "";
+            for (var i = 0; i < enemies.length; i++) {
+                content += "<div class='enemy' style='left: " + enemies[i].left + "px; top: " + enemies[i].top + "px;'></div>";
+            }
+            document.getElementById("enemies").innerHTML = content;
+        }
+
+        function drawMissiles() {
+            content = "";
+            for (var i = 0; i < missiles.length; i++) {
+                content += "<div class='missile' style='left: " + missiles[i].left + "px; top: " + missiles[i].top + "px;'></div>";
+            }
+            document.getElementById("missiles").innerHTML = content;
+        }
+
+        function moveEnemies(dir, dist) {
+            switch (dir) {
+                case "n" : {
+                    for (var i = 0; i < enemies.length; i++) {
+                        enemies[i].top -= dist;
+                    }
+                }
+                case "s" : {
+                    for (var i = 0; i < enemies.length; i++) {
+                        enemies[i].top += dist;
+                    }
+                }
+                case "w" : {
+                    for (var i = 0; i < enemies.length; i++) {
+                        enemies[i].left -= dist;
+                    }
+                }
+                case "e" : {
+                    for (var i = 0; i < enemies.length; i++) {
+                        enemies[i].left += dist;
+                    }
+                }
+            }
+            for (var i = 0; i < enemies.length; i++) {
+                if (enemies[i].top >= 620) {
+                    gameOver = true;
+                }
+                if (enemies[i].left + 30 > player.left && enemies[i].left < player.left + 70 && enemies[i].top + 40 > player.top && enemies[i].top < player.top + 40) {
+                        gameOver = true;
+                    }
+            }
+            drawEnemies();
+        }
+
+        function moveMissiles() {
+            for (var i = 0; i < missiles.length; i++) {
+                missiles[i].top -= 6;
+                detectHits(i);
+            }
+            drawMissiles();
+        }
+
+        function detectHits(idx) {
+            for (var i = 0; i < enemies.length; i++) {
+                if (missiles[idx].left >= enemies[i].left && missiles[idx].left <= enemies[i].left + 55 && missiles[idx].top <= enemies[i].top + 78) {
+                    enemies[i].hp -= 5;
+                    missiles.splice(idx,1);
+                    drawMissiles();
+                    if (enemies[i].hp <= 0) {
+                        if ((Math.random() * 10) <= 2 && bombCount < 3 && $(".dropping").length == 0) {
+                            $("#ocean").append("<div class='dropping'></div>");
+                            $(".dropping").css({
+                                "left": enemies[i].left,
+                                "top": enemies[i].top
+                            })
+                        }
+                        enemies.splice(i,1);
+                        drawEnemies();
+                        score += 100;
+                    }
+                    return;
+                }
+            }
+        }
+
+        function gameLoop() {
+            moveEnemies("s", 1);
+            moveMissiles();
+            moveBombs();
+            // setTimeout(moveMissiles, 250);
+            drawEnemies();
+            drawPlayer();
+            update();
+            if (!gameOver) {
+                setTimeout(gameLoop, 25);
+            } else {
+                alert("You let an enemy get through!\nGame over. Final score: " + score);
+            }          
+        }
+
+        function addEnemy() {
+            enemies.push( {left: Math.floor(Math.random() * 800) + 10, top: 10, hp: 10} );
+            drawEnemies();
+            setTimeout(addEnemy, 2000);
+        }
+
+        function gameOver() {
+            alert("You let an enemy get through!\nGame over. Final score: " + score);
+        }
+
+        function drawBomb() {
+            $("#ocean").append("<div class='boom'></div>");
+            $(".boom").show();
+            $(".boom").animate({
+                'opacity': 0,
+                'height': "1000px",
+                'width': "1000px",
+                'top': "-250px",
+                'left': "-50px"
+            }, 600,  "linear");
+            setTimeout($(".boom").remove, 610);
+        }
+
+        function bombEnemies() {
+            for (var i = 0; i < enemies.length; i++) {
+                score += enemies.length * 100;
+                enemies = [];
+                drawEnemies();
+            }
+        }
+
+        function update() {
+            bombImages = "";
+            for (var i = 1; i <= bombCount; i++) {
+                bombImages += "<img src='bomb.png' alt='bomb'>";
+            }
+            $("#bombs").html(bombImages);
+            $("#score").html("Score: " + score + " points");
+        }
+
+        function moveBombs() {
+            $bomb = $(".dropping");
+            if ($bomb.length == 0) { return; }
+            topVal = +$bomb.css("top").split("px")[0];
+            leftVal = +$bomb.css("left").split("px")[0];
+            if (leftVal > player.left && leftVal < player.left + 90 && topVal > player.top && topVal < player.top + 53) {
+                $(".dropping").remove();
+                bombCount++;
+                update();
+            }
+            $(".dropping").css("top", (topVal + 2) + "px")
+            update();
+        }
+
+        var score = 0;
+
+        var gameOver = false;
+
+        var player = {
+            left: 415,
+            top: 600
+        };
+        var enemies = [
+            {left: 10, top: 10, hp: 10},
+            {left: 210, top: 10, hp: 10},            
+            {left: 410, top: 10, hp: 10},            
+            {left: 610, top: 10, hp: 10},            
+            {left: 810, top: 10, hp: 10},            
+        ];
+
+        var missiles = [];
+        var bombCount = 3;
+
+        document.onkeydown = (e) => {
+            if (e.keyCode == 37 && player.left >= 20) { // move left
+                player.left -= 10;
+            }
+            if (e.keyCode == 39 && player.left <= 800) { // move right
+                player.left += 10;
+            }
+            if (e.keyCode == 38 && player.top >= 450) { // move up
+                player.top -= 10;
+            }
+            if (e.keyCode == 40 && player.top <= 640) { // move down
+                player.top += 10;
+            }
+            if (e.keyCode == 32) {
+                missiles.push({from: "ally", left: player.left + 45, top: player.top - 20});
+                drawMissiles();
+            }
+            if (e.keyCode == 66) {
+                if (bombCount > 0) {
+                    drawBomb();
+                    bombCount--;
+                    setTimeout(bombEnemies, 500);
+                }
+                update();
+            }
+            drawPlayer();
+        }
+        $(".boom").hide();
+        gameLoop();
+        addEnemy();
+
+    </script>
+
+</body>
+</html>

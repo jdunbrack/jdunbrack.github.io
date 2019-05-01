@@ -1,0 +1,121 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: black;
+}
+
+div.row div {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin: 0px;
+    vertical-align: top;
+}
+
+div.brick {
+    background-color: blue;
+    display: inline-block;
+    margin: 0px;
+}
+
+div.coin {
+    background: url('img/coin.gif') no-repeat center;
+    margin: 0px;
+}
+
+div#pacman {
+    background: url('img/Pacman.gif') no-repeat center;
+    background-size: cover;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 120px;
+    left: 200px;
+    margin: 0px;
+}
+
+div#pacman2 {
+    background: url('img/Pacman2.gif') no-repeat center;
+    background-size: cover;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 160px;
+    left: 20px;
+    margin: 0px;
+}
+
+div.empty {
+    background-color: black;
+}
+
+div#score {
+    border: 1px solid white;
+    width: 60px;
+    height: 30px;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+}
+
+div.ghost#orange {
+    background: url('img/ghost_orange.gif') no-repeat center;
+    background-size: cover;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 160px;
+    left: 360px;
+}
+
+div.cherry {
+    background: url('img/cherry.png') no-repeat center;
+    background-size: cover;
+    height: 20px;
+    width: 20px;
+}
+
+h1 {
+    float: left;
+    color: red;
+}
+
+.ghost {
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    position: absolute;
+}
+
+#ghostBluey {
+    background-image: url("img/bluey.gif");
+    top: 20px;
+    left: 80px;
+}
+#ghostRed {
+    background-image: url("img/red.gif");
+    top: 80px;
+    left: 360px;
+}
+#ghostPinky {
+    background-image: url("img/pinky.gif");
+    top: 220px;
+    left: 80px;
+}
+#ghostPumpky {
+    background-image: url("img/pumpky.gif");
+    top: 160px;
+    left: 360px;
+}
+
+p {
+    color: white;
+}
+
+div.brick.flash {
+    background-color: red;   
+}
