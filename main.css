@@ -48,7 +48,6 @@ h3 {
 #slide4 {
     background-color: white;
     color: #2c1310;
-    height: 900px;
     padding: 100px 0;
 }
 
@@ -164,4 +163,12 @@ img#dojo {
 #callout-linkedin {
     width: 180px;
     height: auto;
+}
+
+.project-thumb {
+    opacity: 0.5;
+}
+
+.project-thumb:hover {
+    opacity: 1.0;
 }
