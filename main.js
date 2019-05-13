@@ -50,7 +50,6 @@ $("#contact-form").submit(function(e) {
         bodyText: bodyText,
         isTransactional: false
     }
-    console.log(data);
     $.post({
         url: "https://api.elasticemail.com/v2/email/send",
         data: data,
