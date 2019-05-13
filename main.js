@@ -37,3 +37,26 @@ $navContact.click(function(e) {
 $bodyProjects.hide();
 $bodyAbout.hide();
 $bodyContact.hide();
+
+$("#contact-form").submit(function(e) {
+    e.preventDefault();
+    let formData = $("#contact-form").serializeArray();
+    let bodyText = formData.content + "\n\n Sent to you from your website by " + formData.name + ", phone (if provided): " + formData.phone;
+    let data = {
+        apikey: "0e1f14c3-52fc-43b9-b6e2-84b9e4468524",
+        subject: "New Message from jdunbrack.com",
+        from: "admin@jdunbrack.com",
+        replyTo: formData.email,
+        to: "jordan.dunbrack@gmail.com",
+        bodyText: bodyText,
+        isTransactional: true
+    }
+    $.post({
+        url: "https://api.elasticemail.com/v2/email/send",
+        data: data,
+        success: function (data) {
+            alert("Email has been sent successfully.\nPlease allow time for me to respond.");
+        }
+    })
+    $('#contact-form').trigger('reset');
+})
