@@ -40,17 +40,17 @@ $bodyContact.hide();
 
 $("#contact-form").submit(function(e) {
     e.preventDefault();
-    let formData = $("#contact-form").serializeArray();
-    let bodyText = formData.content + "\n\n Sent to you from your website by " + formData.name + ", phone (if provided): " + formData.phone;
+    let bodyText = $('#contact-content').val() + "\n\n Sent to you from your website by " + $('#contact-name').val() + ", phone (if provided): " + $('#contact-phone').val();
     let data = {
         apikey: "0e1f14c3-52fc-43b9-b6e2-84b9e4468524",
         subject: "New Message from jdunbrack.com",
         from: "admin@jdunbrack.com",
-        replyTo: formData.email,
+        replyTo: $('#contact-email').val(),
         to: "jordan.dunbrack@gmail.com",
         bodyText: bodyText,
         isTransactional: true
     }
+    console.log(data);
     $.post({
         url: "https://api.elasticemail.com/v2/email/send",
         data: data,
