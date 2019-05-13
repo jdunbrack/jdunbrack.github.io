@@ -48,7 +48,7 @@ $("#contact-form").submit(function(e) {
         replyTo: $('#contact-email').val(),
         to: "jordan.dunbrack@gmail.com",
         bodyText: bodyText,
-        isTransactional: true
+        isTransactional: false
     }
     console.log(data);
     $.post({
