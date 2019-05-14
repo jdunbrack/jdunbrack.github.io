@@ -54,7 +54,7 @@ h3 {
 #slide5 {
     background: url("src/img/splash2.jpg") 50% 0 no-repeat fixed;
     min-height: 600px;
-    padding: 100px 0;
+    padding: 100px 0 50px;
     color: #d1d4d6;
     background-size: cover;
 }
@@ -75,11 +75,11 @@ h3 {
     font-size: 40px;
 }
 
-img#techmuseum {
+/* img#techmuseum {
     max-width: 200px;
     max-height: 200px;
     margin: 40px 0 10px 50px;
-}
+} */
 
 img.tech {
     width: 35px;
@@ -132,15 +132,16 @@ img.tech {
 }
 
 #textbox1 {
-    margin-bottom: 150px;
-    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 250px;
+    border-radius: 10px;
     padding: 30px;
     box-shadow: 10px 10px 25px #968171, -10px -10px 25px #968171, 10px -10px 25px #968171, -10px 10px 25px #968171;
 }
 
 #textbox2 {
-    margin-top: 200px;
-    border-radius: 20px;
+    margin-top: 150px;
+    border-radius: 10px;
     padding: 30px;
     box-shadow: 10px 10px 25px #968171, -10px -10px 25px #968171, 10px -10px 25px #968171, -10px 10px 25px #968171;
 }
